@@ -34,7 +34,7 @@ router.post("/login", (req, res) => {
       if (user && bcryptjs.compareSync(password, user.password)) {
         req.session.user = { id: user.id, username: user.username };
 
-        res.status(200).json({ welcome: "to moria", session: req.session });
+        res.status(200).json({ welcome: "Roam Wisely", session: req.session });
       } else {
         res.status(401).json({ you: "cannot pass" });
       }
@@ -47,11 +47,12 @@ router.post("/login", (req, res) => {
 
 router.get("/logout", (req, res) => {
   if (req.session) {
-    req.session.destroy(error => {
+    req.session.destroy(error => { // we can pass a callback function that has potential of error
+        //can check if there is an error with the error argument
       if (error) {
-        res.status(500).json({ message: "could not log out, please try again" });
+        res.status(500).json({ message: "could not log out, please try again" }); // tell client that it could not be done
       } else {
-        res.status(204).end();
+        res.status(204).end(); // 204 since no data is being sent, it says all good, there is no data for you
       }
     });
   } else {
